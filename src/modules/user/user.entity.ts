@@ -1,6 +1,8 @@
 import { Exclude } from 'class-transformer';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { PasswordTransformer } from './password.transformer';
+import { Board } from './../board';
+import { Comment } from './../comment';
 
 @Entity({
   name: 'users',
@@ -25,6 +27,12 @@ export class User {
   })
   @Exclude()
   password: string;
+
+  @OneToMany((type) => Board, (board) => board.user, {})
+  boards: Board[]
+
+  @OneToMany((type) => Comment, (comment) => comment.user, {})
+  comments: Comment[]
 }
 
 export class UserFillableFields {
